@@ -9,7 +9,7 @@
 return function($app, $config, $renderer, $dbConnector) {
 
     $app->get('/', function() use ($app, $renderer) {
-        $renderer->setData(['a'=>10, 'b' => 20])->render('index.html.php');
+        echo $renderer->setData(['a'=>10, 'b' => 20])->render('index.html.php');
     });
 
     $app->get('/page/:name', function($pageName) {
@@ -23,5 +23,7 @@ return function($app, $config, $renderer, $dbConnector) {
     $app->get('/locale/:locale', function($locale) {
 
     });
+
+    return $app;
 
 };
