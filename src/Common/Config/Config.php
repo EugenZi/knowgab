@@ -53,13 +53,13 @@ class Config implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        $returned = null;
+        $returnValue = null;
 
         if ($this->offsetExists($offset)) {
-            $returned = $this->config[$offset];
+            $returnValue = $this->config[$offset];
         }
 
-        return $returned;
+        return $returnValue;
     }
 
     /**

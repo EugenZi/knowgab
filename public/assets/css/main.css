@@ -127,6 +127,19 @@ body {
     text-transform: uppercase;
 }
 
+.featurette {
+    padding-top: 0;
+}
+
+.featurette .featurette-image {
+    margin-top: 0;
+    vertical-align: top;
+}
+
+.featurette-divider {
+    margin: 40px 0;
+}
+
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 

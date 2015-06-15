@@ -46,8 +46,8 @@ class Renderer
 
         $returnData = null;
 
-        if (array_key_exists($param, $this->data)) {
-            $returnData = $this->data[$param];
+        if ($this->data->offsetExists($param)) {
+            $returnData = $this->data->offsetGet($param);
         }
 
         return $returnData;
@@ -148,7 +148,9 @@ class Renderer
      */
     public function setData(array $data) {
 
-        $this->data->exchangeArray($data);
+        foreach ($data as $key => $val) {
+            $this->set($key, $val);
+        }
 
         return $this;
     }

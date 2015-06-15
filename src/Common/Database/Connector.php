@@ -8,12 +8,18 @@ class Connector
 {
     private static $instance = null;
 
+    /**
+     * @param Config $config
+     * @return \PDO
+     */
     public static function getInstance(Config $config)
     {
         $dbConfig = $config['database'];
 
         if (!(self::$instance instanceof \PDO)) {
-            self::$instance = new \PDO($dbConfig['dsn'], $dbConfig['user'], $dbConfig['password']);
+            self::$instance = new \PDO($dbConfig['dsn'], $dbConfig['user'], $dbConfig['password'], [
+                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES "utf8"'
+            ]);
         }
 
         return self::$instance;
