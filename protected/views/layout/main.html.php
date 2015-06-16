@@ -90,7 +90,7 @@
 </div><!-- /.container -->
 
 <!-- Latest compiled and minified jQuerye JavaScript library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/assets/js/jquery-2.1.4.min.js"></script>
 
 <!-- Latest compiled and minified bootstrap JavaScript library -->
 <script src="/assets/js/bootstrap.min.js"></script>
