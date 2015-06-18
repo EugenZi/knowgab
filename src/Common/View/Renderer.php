@@ -2,12 +2,12 @@
 
 namespace Common\View;
 
-use \Common\Config\Config;
+use \Common\Config\Ini as IniConfig;
 
 class Renderer
 {
     /**
-     * @var Config
+     * @var IniConfig
      */
     private $config;
 
@@ -28,9 +28,9 @@ class Renderer
 
     /**
      * Constructor of Renderer
-     * @param Config $config
+     * @param IniConfig $config
      */
-    public function __construct(Config $config) {
+    public function __construct(IniConfig $config) {
         $this->config = $config;
         $this->data   = new \ArrayObject(
             [],

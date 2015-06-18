@@ -3,7 +3,7 @@
 namespace Common\Config;
 
 
-class Config implements \ArrayAccess
+class Ini implements \ArrayAccess
 {
     private $config = null;
 

@@ -2,7 +2,7 @@
 
 require '../vendor/autoload.php';
 
-use Common\Config\Config;
+use Common\Config\Ini as IniConfig;
 use Common\View\Renderer;
 use Common\Database\Connector;
 
@@ -17,7 +17,7 @@ ini_set('display_errors', 'On');
 
 $environment = getenv('environment');
 
-if (php_sapi_name() === 'cli' || !in_array($environment, [
+if (php_sapi_name() === 'cli' || $_SERVER['HTTP_HOST'] === 'localhost' || !in_array($environment, [
         APP_DEVELOPMENT_MODE,
         APP_STAGING_MODE,
         APP_PRODUCTION_MODE
@@ -25,7 +25,7 @@ if (php_sapi_name() === 'cli' || !in_array($environment, [
     $environment = APP_DEVELOPMENT_MODE;
 }
 
-$config = Config::getInstance(
+$config = IniConfig::getInstance(
     BASE_DIR            .
     DIRECTORY_SEPARATOR .
     'protected'         .
@@ -42,10 +42,9 @@ $slim        = new \Slim\Slim($config['common']);
 /**
  * @var Closure $controllers
  */
-$controllers = require_once(BASE_DIR . 'protected/controllers/controllers.php');
+$controllers = require_once(BASE_DIR . 'protected/controllers/public.php');
 
 /**
  * @var \Slim\Slim
  */
-$app = $controllers($slim, $config, $renderer, $dbConnector);
-$app->run();
+$controllers($slim, $config, $renderer, $dbConnector)->run();

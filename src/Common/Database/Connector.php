@@ -2,17 +2,17 @@
 
 namespace Common\Database;
 
-use \Common\Config\Config;
+use \Common\Config\Ini as IniConfig;
 
 class Connector
 {
     private static $instance = null;
 
     /**
-     * @param Config $config
+     * @param IniConfig $config
      * @return \PDO
      */
-    public static function getInstance(Config $config)
+    public static function getInstance(IniConfig $config)
     {
         $dbConfig = $config['database'];
 
