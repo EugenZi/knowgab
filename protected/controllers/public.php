@@ -19,23 +19,18 @@ return function($app, $config, $renderer, $dbConnector) {
 //            'SELECT * FROM `pages` `p` WHERE `p`.`is_main` = 1 LIMIT 1'
 //        )->fetch(\PDO::FETCH_OBJ);
 
-        $page = PageModel::::
+        $page = PageModel::findOneBy(['is_main' => 1]);
 
         echo $renderer->render('page.html.php', ['page' => $page]);
     });
 
     $app->get('/page/:name', function($name) use ($app, $renderer, $dbConnector) {
 
-        $page = $dbConnector->query(
-            'SELECT * FROM `pages` `p` WHERE `p`.`is_main` = 0 AND `p`.`title` = :title'
-        );
-
-        $page->bindValue(':title', $name);
-
+        $page = PageModel::findOneBy(['is_main' => 0, 'name' => $name]);
 
         echo $renderer->render(
             'page.html.php',
-            ['page' => $page->fetchAll(\PDO::FETCH_OBJ)]
+            ['page' => $page]
         );
     });
 

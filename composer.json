@@ -1,8 +1,8 @@
 {
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": { "": ["src/", "protected/"] }
     },
     "require": {
-        "slim/slim": "^2.6"
+        "slim/slim": "2.*"
     }
 }

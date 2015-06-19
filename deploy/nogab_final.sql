@@ -6,17 +6,17 @@
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Dumping database structure for nogab
-DROP DATABASE IF EXISTS `nogab`;
-CREATE DATABASE IF NOT EXISTS `nogab` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `nogab`;
+-- Dumping database structure for knowgab
+DROP DATABASE IF EXISTS `knowgab`;
+CREATE DATABASE IF NOT EXISTS `knowgab` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `knowgab`;
 
 
--- Dumping structure for table nogab.dictionary
+-- Dumping structure for table knowgab.dictionary
 DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE IF NOT EXISTS `dictionary` (
   `id` int(11) NOT NULL,
@@ -31,13 +31,13 @@ CREATE TABLE IF NOT EXISTS `dictionary` (
   CONSTRAINT `dictionary_word_theme_id_fk` FOREIGN KEY (`theme_id`) REFERENCES `dictionary_themes` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table nogab.dictionary: ~0 rows (approximately)
+-- Dumping data for table knowgab.dictionary: ~0 rows (approximately)
 DELETE FROM `dictionary`;
 /*!40000 ALTER TABLE `dictionary` DISABLE KEYS */;
 /*!40000 ALTER TABLE `dictionary` ENABLE KEYS */;
 
 
--- Dumping structure for table nogab.dictionary_themes
+-- Dumping structure for table knowgab.dictionary_themes
 DROP TABLE IF EXISTS `dictionary_themes`;
 CREATE TABLE IF NOT EXISTS `dictionary_themes` (
   `id` int(11) NOT NULL,
@@ -48,13 +48,13 @@ CREATE TABLE IF NOT EXISTS `dictionary_themes` (
   KEY `description` (`description`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table nogab.dictionary_themes: ~0 rows (approximately)
+-- Dumping data for table knowgab.dictionary_themes: ~0 rows (approximately)
 DELETE FROM `dictionary_themes`;
 /*!40000 ALTER TABLE `dictionary_themes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `dictionary_themes` ENABLE KEYS */;
 
 
--- Dumping structure for table nogab.langs
+-- Dumping structure for table knowgab.langs
 DROP TABLE IF EXISTS `langs`;
 CREATE TABLE IF NOT EXISTS `langs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `langs` (
   KEY `iso` (`iso`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table nogab.langs: ~3 rows (approximately)
+-- Dumping data for table knowgab.langs: ~3 rows (approximately)
 DELETE FROM `langs`;
 /*!40000 ALTER TABLE `langs` DISABLE KEYS */;
 INSERT INTO `langs` (`id`, `name`, `iso`) VALUES
@@ -77,7 +77,7 @@ INSERT INTO `langs` (`id`, `name`, `iso`) VALUES
 /*!40000 ALTER TABLE `langs` ENABLE KEYS */;
 
 
--- Dumping structure for table nogab.pages
+-- Dumping structure for table knowgab.pages
 DROP TABLE IF EXISTS `pages`;
 CREATE TABLE IF NOT EXISTS `pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   CONSTRAINT `pages_langs_fk` FOREIGN KEY (`lang`) REFERENCES `langs` (`iso`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table nogab.pages: ~0 rows (approximately)
+-- Dumping data for table knowgab.pages: ~0 rows (approximately)
 DELETE FROM `pages`;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
 INSERT INTO `pages` (`id`, `name`, `title`, `content`, `is_main`, `lang`) VALUES
@@ -101,7 +101,7 @@ INSERT INTO `pages` (`id`, `name`, `title`, `content`, `is_main`, `lang`) VALUES
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 
 
--- Dumping structure for table nogab.users
+-- Dumping structure for table knowgab.users
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `password` (`password`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table nogab.users: ~0 rows (approximately)
+-- Dumping data for table knowgab.users: ~0 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `password`) VALUES
@@ -120,7 +120,7 @@ INSERT INTO `users` (`id`, `name`, `password`) VALUES
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 
--- Dumping structure for table nogab.word_relations
+-- Dumping structure for table knowgab.word_relations
 DROP TABLE IF EXISTS `word_relations`;
 CREATE TABLE IF NOT EXISTS `word_relations` (
   `id` int(11) NOT NULL,
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `word_relations` (
   CONSTRAINT `dictionary_word_id_fk` FOREIGN KEY (`word_id`) REFERENCES `dictionary` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table nogab.word_relations: ~0 rows (approximately)
+-- Dumping data for table knowgab.word_relations: ~0 rows (approximately)
 DELETE FROM `word_relations`;
 /*!40000 ALTER TABLE `word_relations` DISABLE KEYS */;
 /*!40000 ALTER TABLE `word_relations` ENABLE KEYS */;
