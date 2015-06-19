@@ -9,70 +9,88 @@ abstract class AbstractModel implements ModelInterface, \ArrayAccess
     /**
      * @var \PDO
      */
-    private $connector;
+    protected static $connector;
 
     /**
      * @var string
      */
-    private $query  = '';
+    protected static $query  = '';
 
     /**
      * @var \PDOStatement
      */
-    private $stmt   = null;
+    protected static $stmt   = null;
 
     /**
      * @var array
      */
-    private $params = [];
+    protected static $params  = [];
 
     /**
      * @var \ArrayObject
      */
-    private $dataSet = null;
+    protected static $dataSet  = null;
+
+    protected static $instance = null;
 
     public function __construct(Connector $connector) {
-        $this->connector = $connector;
-        $this->dataSet    = new \ArrayObject([], \ArrayObject::STD_PROP_LIST);
+        self::$connector = $connector;
+        self::$dataSet   = new \ArrayObject([], \ArrayObject::STD_PROP_LIST);
+        self::$instance  = $this;
     }
 
-    public function query($query) {
+    public static function getInstance(Connector $connector) {
+        return new static($connector);
+    }
+
+    public static function query($query) {
         $query       = filter_var($query, STREAM_FILTER_ALL);
-        $this->query = $query;
-        return $this;
+        self::$query = $query;
+        return self::$instance;
     }
 
-    public function select(array $columns) {
-        $this->query = 'SELECT ' . implode(',', $columns);
-        $this->query.= ' FROM '  . self::getTableName();
-        return $this;
+    public static function select(array $columns) {
+        self::$query = 'SELECT ' . implode(',', $columns);
+        self::$query.= ' FROM '  . self::getTableName();
+        return self::$instance;
     }
 
     public function where(array $condition) {
-        $this->query.= $this->query . ' WHERE ' . implode(' ', $condition);
+        self::$query.= self::$query . ' WHERE ' . implode(' ', $condition);
         return $this;
     }
 
     public function andWhere(array $condition) {
-        $this->query.= $this->query . ' AND WHERE ' . implode(' ', $condition);
+        self::$query.= self::$query . ' AND WHERE ' . implode(' ', $condition);
         return $this;
     }
 
     public function orWhere(array $condition) {
-        $this->query.= $this->query . ' OR WHERE ' . implode(' ', $condition);
+        self::$query.= self::$query . ' OR WHERE ' . implode(' ', $condition);
         return $this;
     }
 
-    public function find($id, $columns = null, $mode = \PDO::FETCH_OBJ) {
+    public static function find($id, $columns = '*', $mode = \PDO::FETCH_OBJ) {
         $id          = filter_var($id, FILTER_FLAG_ALLOW_OCTAL);
         $columns     = implode(',', $columns);
-        $this->query = 'SELECT ' . $columns . ' FROM ' . self::getTableName();
-        $this->query.= ' WHERE id = ' . $id;
-        $this->query.= ' LIMIT 1 ';
+        self::$query = 'SELECT ' . $columns . ' FROM ' . self::getTableName();
+        self::$query.= ' WHERE id = ' . $id;
+        self::$query.= ' LIMIT 1 ';
 
-        return $this
-            ->connector
-            ->query($this->query)
+        return self::$connector
+            ->query(self::$query)
+            ->fetch($mode);
+    }
+
+    public static function findBy(array $conditions, $columns = null, $mode = \PDO::FETCH_OBJ) {
+        $id          = filter_var_array($conditions, FILTER_FLAG_ENCODE_HIGH);
+        $columns     = implode(',', $columns);
+        self::$query = 'SELECT ' . $columns . ' FROM ' . self::getTableName();
+        self::$query.= ' WHERE id = ' . $id;
+        self::$query.= ' LIMIT 1 ';
+
+        return self::$connector
+            ->query(self::$query)
             ->fetch($mode);
     }
 
@@ -80,12 +98,11 @@ abstract class AbstractModel implements ModelInterface, \ArrayAccess
 
         $id          = filter_var_array($condition, FILTER_DEFAULT);
         $columns     = implode(',', $columns);
-        $this->query = 'SELECT ' . $columns . ' FROM ' . self::getTableName();
-        $this->query.= ' WHERE id = ' . $id;
+        self::$query = 'SELECT ' . $columns . ' FROM ' . self::getTableName();
+        self::$query.= ' WHERE id = ' . $id;
 
-        return $this
-            ->connector
-            ->query($this->query)
+        return self::$connector
+            ->query(self::$query)
             ->fetch($mode);
     }
 
@@ -103,9 +120,9 @@ abstract class AbstractModel implements ModelInterface, \ArrayAccess
     }
 
     public function resetData() {
-        $this->query  = null;
-        $this->params = null;
-        $this->dataSet = null;
+        self::$query   = null;
+        self::$params  = null;
+        self::$dataSet = null;
     }
 
     /**
@@ -122,7 +139,7 @@ abstract class AbstractModel implements ModelInterface, \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return $this->dataSet->offsetExists($offset);
+        return self::$dataSet->offsetExists($offset);
     }
 
     /**
@@ -136,7 +153,7 @@ abstract class AbstractModel implements ModelInterface, \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->dataSet->offsetGet($offset);
+        return self::$dataSet->offsetGet($offset);
     }
 
     /**
@@ -153,7 +170,7 @@ abstract class AbstractModel implements ModelInterface, \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->dataSet->offsetSet($offset, $value);
+        self::$dataSet->offsetSet($offset, $value);
     }
 
     /**
@@ -167,6 +184,6 @@ abstract class AbstractModel implements ModelInterface, \ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        $this->dataSet->offsetUnset($offset);
+        self::$dataSet->offsetUnset($offset);
     }
 }
