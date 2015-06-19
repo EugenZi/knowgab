@@ -11,29 +11,27 @@ use \App\Model\PageModel;
  */
 return function($app, $config, $renderer, $dbConnector) {
 
-
-
     $app->get('/', function() use ($app, $renderer, $dbConnector) {
 
-//        $page = $dbConnector->query(
-//            'SELECT * FROM `pages` `p` WHERE `p`.`is_main` = 1 LIMIT 1'
-//        )->fetch(\PDO::FETCH_OBJ);
+        $page     = PageModel::findBy(['is_main' => 1]);
+        $pageList = PageModel::findAllBy(['is_main' => 0], ['name', 'title']);
 
-        $page = PageModel::findBy(['is_main' => 1]);
-
-        echo $renderer->render('page.html.php', ['page' => $page]);
+        echo $renderer->render(
+            'page.html.php',
+            [
+                'page' => $page,
+                'pageList' => $pageList
+            ]
+        );
     });
 
     $app->get('/page/:name', function($name) use ($app, $renderer, $dbConnector) {
 
-        $page = PageModel::findAllBy(['is_main' => 0, 'title' => ]);
-
-        $page->bindValue(':title', $name);
-
+        $page = PageModel::findOneBy(['is_main' => 0, 'name' => $name]);
 
         echo $renderer->render(
             'page.html.php',
-            ['page' => $page->fetchAll(\PDO::FETCH_OBJ)]
+            ['page' => $page]
         );
     });
 

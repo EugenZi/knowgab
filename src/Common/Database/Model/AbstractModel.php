@@ -68,9 +68,8 @@ abstract class AbstractModel implements ModelInterface, \ArrayAccess
     }
 
     public static function find($id = null, $columns = '*', $mode = \PDO::FETCH_OBJ) {
-        $id          = self::cleanArgs($id);
-        $columns     = implode(',', $columns);
-
+        $id            = self::cleanArgs($id);
+        $columns       = implode(',', $columns);
         static::$query = 'SELECT ' . $columns . ' FROM ' . static::getTableName();
 
         if(is_int($id)) {
@@ -98,17 +97,13 @@ abstract class AbstractModel implements ModelInterface, \ArrayAccess
             ->fetch($mode);
     }
 
-    public function destroy(array $condition) {
+    public function destroy(array $conditions) {
 
     }
 
-    public function update(array $conditions = []) {
+    public function update(array $conditions, array $data) {
 
         return $this;
-    }
-
-    public function fetchResult($type) {
-
     }
 
     public function resetData() {
